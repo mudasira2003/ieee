@@ -61,6 +61,36 @@ header {
     background-color: rgba(255, 255, 255, 0.2);
     color: #ff9671;
 }
+.dropdown {
+    position: relative; /* Relative positioning for dropdown */
+}
+
+.dropdown-content {
+    display: none; /* Hidden by default */
+    position: absolute; /* Absolute positioning for dropdown */
+    background-color: #100202; /* Background color for dropdown */
+    min-width: 160px; /* Minimum width for dropdown */
+    z-index: 1; /* Display above other elements */
+}
+
+.dropdown-content a {
+    color: black; /* Link color in dropdown */
+    padding: 12px 16px; /* Padding for dropdown links */
+    text-decoration: none; /* Remove underline */
+    display: block; /* Block display for links */
+}
+
+.dropdown-content a:hover {
+    background-color: #969393; /* Background color on hover */
+}
+
+.dropdown:hover .dropdown-content {
+    display: block; /* Show dropdown on hover */
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #880b0b; /* Change background color of the dropdown button on hover */
+}
 
 /* Hero Section */
 .hero {

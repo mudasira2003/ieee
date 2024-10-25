@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workplace Personality & Skill Assessment</title>
+    <link rel="stylesheet" href="per.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Workplace Personality & Skill Assessment</h1>
+        <form id="assessmentForm">
+            <h2>Answer the following questions to discover your workplace personality and skills:</h2>
+
+            <!-- Personality Questions -->
+            <label>1. How do you prefer to solve problems?</label><br>
+            <input type="radio" name="personality1" value="1" required> Alone<br>
+            <input type="radio" name="personality1" value="2"> In a group<br>
+            <input type="radio" name="personality1" value="3"> Asking for help<br><br>
+
+            <label>2. When under pressure, you:</label><br>
+            <input type="radio" name="personality2" value="1" required> Remain calm<br>
+            <input type="radio" name="personality2" value="2"> Seek support from colleagues<br>
+            <input type="radio" name="personality2" value="3"> Thrive in high-pressure situations<br><br>
+
+            <!-- Skill Questions -->
+            <label>3. Which skill do you rely on most at work?</label><br>
+            <input type="radio" name="skill1" value="analytical" required> Analytical Thinking<br>
+            <input type="radio" name="skill1" value="communication"> Communication<br>
+            <input type="radio" name="skill1" value="creativity"> Creativity<br><br>
+
+            <label>4. What motivates you in a role?</label><br>
+            <input type="radio" name="skill2" value="growth" required> Professional Growth<br>
+            <input type="radio" name="skill2" value="stability"> Stability<br>
+            <input type="radio" name="skill2" value="impact"> Making an Impact<br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="result" class="result hidden">
+            <h2>Your Workplace Personality & Skills</h2>
+            <p id="personalityType"></p>
+            <p id="skillStrengths"></p>
+            <button id="restartButton">Take the assessment again</button>
+        </div>
+    </div>
+
+    <script src="per.js"></script>
+</body>
+</html>
