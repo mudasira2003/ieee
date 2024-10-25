@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Voice - Assistance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&family=Nunito:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stylesass.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logo1.png" alt="Safe Voice Logo" class="logo-img">
+                <span>Safe Voice</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="report.html">Report</a></li>
+                <li><a href="assistance.html">Assistance</a></li>
+                <li><a href="incidents.html">Incidents</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="assistance-section">
+        <h1>Assistance Near You</h1>
+        <div class="help-near-me">
+            <h2>Help Near Me</h2>
+            <div class="police-stations">
+                <div class="station">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="station-info">
+                        <h3>Central Police Station</h3>
+                        <p>Phone: +123456789</p>
+                        <p>Distance: 0.5 km</p>
+                    </div>
+                    <button class="station-btn gradient-btn">Contact</button>
+                </div>
+                <div class="station">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="station-info">
+                        <h3>East Police Station</h3>
+                        <p>Phone: +987654321</p>
+                        <p>Distance: 1.2 km</p>
+                    </div>
+                    <button class="station-btn gradient-btn">Contact</button>
+                </div>
+            </div>
+        </div>
+        <div class="track-assistance">
+            <h2>Track Your Assistance</h2>
+            <div class="slider-container">
+                <label for="assistance-range">Me</label>
+                <input type="range" id="assistance-range" min="0" max="100" value="50">
+                <label for="assistance-range">Help</label>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.png"/>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="./assets/css/main.css">
+
+  <title>Diary Entries</title>
+  <style>
+    .entry-list {
+      margin-top: 20px;
+    }
+    .entry-item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .entry-date {
+      font-weight: bold;
+    }
+    .entry-text {
+      white-space: pre-wrap;
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+    .delete-btn {
+      color: red;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .delete-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar Goes Here -->
+  <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+    <div class="container">  
+      <a class="navbar-brand" href="#">Diary Entries</a>
+    </div>
+  </nav>
+  <br><br>
+  
+  <!-- Dashboard Start Here -->
+  <div id="content" class="container">
+    <div class="jumbotron bg-info text-white">
+      <h1 class="display-4">Hello!</h1>
+      <hr class="my-4">
+      <p class="lead">Welcome to your personal diary. Write down your thoughts and memories!</p>
+    </div>
+    
+    <div class="card">
+      <div class="card-body">
+        <h4>Write a New Entry</h4>
+        <form id="diaryForm">
+          <div class="form-group">
+            <label for="entryDate">Date:</label>
+            <input type="date" id="entryDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="entryText">Entry:</label>
+            <textarea id="entryText" class="form-control" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Entry</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="entry-list">
+      <h4>Your Entries:</h4>
+      <div id="entriesContainer" class="list-group">
+        <!-- Entries will be displayed here -->
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2
+  T0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDzwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const diaryForm = document.getElementById('diaryForm');
+      const entryDate = document.getElementById('entryDate');
+      const entryText = document.getElementById('entryText');
+      const entriesContainer = document.getElementById('entriesContainer');
+
+      let diaryEntries = [];
+
+      // Save entry to the list
+      function saveEntry(date, text) {
+        diaryEntries.push({ date, text });
+        renderEntries();
+      }
+
+      // Render entries to the page
+      function renderEntries() {
+        entriesContainer.innerHTML = '';
+        diaryEntries.forEach((entry, index) => {
+          const entryItem = document.createElement('div');
+          entryItem.className = 'entry-item list-group-item';
+          entryItem.innerHTML = `
+            <div class="entry-date">${entry.date}</div>
+            <div class="entry-text">${entry.text}</div>
+            <span class="delete-btn" data-index="${index}">&times;</span>
+          `;
+          entriesContainer.appendChild(entryItem);
+        });
+
+        // Add event listeners for delete buttons
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        deleteButtons.forEach(button => {
+          button.addEventListener('click', (event) => {
+            const index = event.target.getAttribute('data-index');
+            deleteEntry(index);
+          });
+        });
+      }
+
+      // Delete an entry from the list
+      function deleteEntry(index) {
+        diaryEntries.splice(index, 1);
+        renderEntries();
+      }
+
+      // Handle form submission
+      diaryForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const date = entryDate.value;
+        const text = entryText.value;
+        if (date && text) {
+          saveEntry(date, text);
+          diaryForm.reset();
+        }
+      });
+
+      // Load initial entries (if any)
+      renderEntries();
+    });
+  </script>
+</body>
+</html>

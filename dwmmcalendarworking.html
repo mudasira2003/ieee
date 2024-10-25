@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.png"/>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="./assets/css/main.css">
+
+  <title>Mood Tracker</title>
+  <style>
+    .emoji {
+      font-size: 1.5rem;
+    }
+    .mood-select {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+    .mood-select button {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+    .mood-select button:hover {
+      transform: scale(1.2);
+    }
+    .mood-select button:focus {
+      outline: none;
+    }
+    .calendar-day {
+      cursor: pointer;
+    }
+    .calendar-day.selected {
+      border: 2px solid #007bff;
+    }
+    .emoji-box {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 20px;
+    }
+    .emoji-box h4 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .emoji-box .emoji-list {
+      list-style: none;
+      padding: 0;
+    }
+    .emoji-box .emoji-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .emoji-box .emoji-list li .emoji {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar Goes Here -->
+  <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+    <div class="container">  
+      <a class="navbar-brand" href="#">Mood Tracker</a>
+    </div>
+  </nav>
+  <br><br>
+  
+  <!-- Dashboard Start Here -->
+  <div id="content" class="container">
+    <div class="jumbotron bg-info text-white">
+      <h1 class="display-4">Hello!</h1>
+      <hr class="my-4">
+      <p class="lead">Welcome to your daily mood tracker. How do you feel today?</p>
+    </div>
+    
+    <div class="card">
+      <div class="card-body">
+        Today is: <h4 id="activeDate">31 December 2019</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="left-section col-lg-8">
+        <br>
+        <div class="card mood-block">
+          <div class="card-body">
+            <h4 class="text-center"><span id="moodBlock-month">December</span>'s Calendar</h4>
+            <hr class="my-4">
+            <div id="calendar">
+              <!-- Calendar will be generated here -->
+            </div>
+            <div id="moodSelect" class="mood-select">
+              <button data-mood="happy">😊</button>
+              <button data-mood="sad">😢</button>
+              <button data-mood="annoyed">😒</button>
+              <button data-mood="frustrated">😤</button>
+              <button data-mood="depressed">😞</button>
+              <button data-mood="angry">😡</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-section col-lg-4">
+        <div class="emoji-box">
+          <h4>Mood Emojis</h4>
+          <ul class="emoji-list">
+            <li><span class="emoji">😊</span> Happy</li>
+            <li><span class="emoji">😢</span> Sad</li>
+            <li><span class="emoji">😒</span> Annoyed</li>
+            <li><span class="emoji">😤</span> Frustrated</li>
+            <li><span class="emoji">😞</span> Depressed</li>
+            <li><span class="emoji">😡</span> Angry</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <h4>This year's progress:</h4>
+        <div class="progress" style="height: 3em;">
+            <div id="year-progress" class="progress-bar progress-bar-animated progress-bar-striped bg-info" role="progressbar" style="width: 1%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0 - check JS</div>
+          </div>
+          <hr class="my-4">
+          <p><span id='remainingDay'>32</span> days remaining until new year</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2
+  T0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDzwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const date = new Date();
+      const day = date.getDate();
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const nameOfMonth = date.toLocaleString('en-US', { month: 'long' });
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const today = date.toLocaleDateString('en-US', options);
+
+      const calendarElement = document.getElementById('calendar');
+      const moodSelectElement = document.getElementById('moodSelect');
+      const activeDateElement = document.getElementById('activeDate');
+      const moodBlockMonthElement = document.getElementById('moodBlock-month');
+      const remainingDayElement = document.getElementById('remainingDay');
+      const progressBarElement = document.getElementById('year-progress');
+
+      let selectedDay = null;
+      const moodData = {};
+
+      activeDateElement.textContent = today;
+      moodBlockMonthElement.textContent = nameOfMonth;
+
+      function getNumberOfDays(year, month) {
+          return new Date(year, month + 1, 0).getDate();
+      }
+
+      function generateCalendar(year, month) {
+          const firstDay = new Date(year, month, 1).getDay();
+          const daysInMonth = getNumberOfDays(year, month);
+          const calendarTable = document.createElement('table');
+          calendarTable.className = 'table table-bordered';
+          const calendarHeader = `
+              <thead>
+                  <tr>
+                      <th>Sun</th>
+                      <th>Mon</th>
+                      <th>Tue</th>
+                      <th>Wed</th>
+                      <th>Thu</th>
+                      <th>Fri</th>
+                      <th>Sat</th>
+                  </tr>
+              </thead>
+          `;
+          calendarTable.innerHTML = calendarHeader;
+          const calendarBody = document.createElement('tbody');
+          let row = document.createElement('tr');
+          for (let i = 0; i < firstDay; i++) {
+              row.appendChild(document.createElement('td'));
+          }
+          for (let i = 1; i <= daysInMonth; i++) {
+              if ((firstDay + i - 1) % 7 === 0 && i !== 1) {
+                  calendarBody.appendChild(row);
+                  row = document.createElement('tr');
+              }
+              const cell = document.createElement('td');
+              cell.id = `${year}-${month + 1}-${i}`;
+              cell.className = 'calendar-day';
+              cell.textContent = i;
+              cell.addEventListener('click', () => selectDay(i));
+              row.appendChild(cell);
+          }
+          calendarBody.appendChild(row);
+          calendarTable.appendChild(calendarBody);
+          calendarElement.innerHTML = '';
+          calendarElement.appendChild(calendarTable);
+      }
+
+      function selectDay(day) {
+          if (selectedDay) {
+              selectedDay.classList.remove('selected');
+          }
+          const days = document.querySelectorAll('.calendar-day');
+          days.forEach((d) => {
+              if (parseInt(d.textContent) === day) {
+                  selectedDay = d;
+              }
+          });
+          selectedDay.classList.add('selected');
+          const formattedDate = `${year}-${month + 1}-${day}`;
+          if (moodData[formattedDate]) {
+              moodSelectElement.style.display = 'none';
+          } else {
+              moodSelectElement.style.display = 'flex';
+          }
+      }
+
+      moodSelectElement.addEventListener('click', (event) => {
+          if (event.target.tagName === 'BUTTON') {
+              const mood = event.target.getAttribute('data-mood');
+              const day = selectedDay.textContent;
+              const formattedDate = `${year}-${month + 1}-${day}`;
+              moodData[formattedDate] = mood;
+              selectedDay.innerHTML = `${day} <span class="emoji">${event.target.textContent}</span>`;
+              moodSelectElement.style.display = 'none';
+          }
+      });
+
+      generateCalendar(year, month);
+
+      // Calculate remaining days until the new year
+      const endOfYear = new Date(year, 11, 31);
+      const remainingDays = Math.ceil((endOfYear - date) / (1000 * 60 * 60 * 24));
+      remainingDayElement.textContent = remainingDays;
+
+      // Calculate year progress
+      const startOfYear = new Date(year, 0, 1);
+      const totalDaysInYear = Math.ceil((endOfYear - startOfYear) / (1000 * 60 * 60 * 24));
+      const progressPercentage = ((totalDaysInYear - remainingDays) / totalDaysInYear) * 100;
+      progressBarElement.style.width = `${progressPercentage}%`;
+      progressBarElement.textContent = `${progressPercentage.toFixed(2)}%`;
+    });
+  </script>
+</body>
+</html>
